@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main role="main">
+    <section class="intro">
+        <div class="container">
+            <div class="row d-flex  align-items-start">
+                <div class="col-md-11">
+                    <h1 class="display-3">The Art of Imagination.<br>Award-winning Design &amp; Craft Studio.</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--end:Intro -->
+    <section class="space-md">
+        <!-- portfolio -->
+        <div id="portfolio" class="container">
+            <div class="grid" data-cols="3" data-margin="0" data-height="1" data-masonry='{ "columnWidth": 200, "itemSelector": ".entry" }'>
+                <!-- entry -->
+                {% for main in posts %}
+
+                <div class="entry work-entry branding">
+                    
+                        <div class="entry-image imageBG" data-img="{{main.photo.url}}"></div>
+                        <div class="work-entry-hover">
+                            <div class="work-entry-content">
+                                <div class="work-entry-title"><a href="{% url 'postdetails' main.slug %}" class="text-light" style="text-decoration: none;">{{main.title}}</a></div>
+                                
+                                <div class="work-entry-cat text-light">{{main.description | safe | slice:":200"}}...<a href="{% url 'postdetails' main.slug %}" class="text-light" style="text-decoration: none;">Read more</a></div>
+                                <div class="work-entry-cat">{{main.blog_views}} views</div> 
+                            </div>
+                        </div>
+                </div>
+                <!-- end:entry -->
+                {% endfor %}
+            </div>
+        </div>
+        <!-- /end:portfolio -->
+    </section>
+
+
+</main>
+
+    
+{% endblock content %}
+    

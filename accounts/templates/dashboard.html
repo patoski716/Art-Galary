@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+
+
+<!-- -----------------------*******------------------------ -->
+<section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+      <div class="row text-center text-dark">
+        <div class="col-md-12">
+          <h1 class="display-4 ">Student Dashboard</h1>
+          <p class="lead text-white">Manage your account</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'home' %}">
+              <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item active"> Dashboard</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Alerts -->
+  {% include 'alearts.html' %}
+
+  <section id="dashboard" class="py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Welcome {{ user.first_name }}</h2>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="site-section pb-5 mb-5">
+    <div class="container">
+        <button class="btn-btn-primary btn-lg" data-toggle="modal" data-target="#inquiryModal"><i class="fa fa-plus"></i>Add Post</button>
+        <!-- Inquiry Modal -->
+  <div class="modal fade text-dark" id="inquiryModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="inquiryModalLabel">Add Post</h5>
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="post" enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            {% if user.is_authenticated %}
+              <input type="hidden" name="user_id" value="{{ user.id }}">
+            {% else %}
+              <input type="hidden" name="user_id" value="0">
+            {% endif %}
+            <div class="form-group">
+                <label for="photo" class="col-form-label">Image:</label>
+                {{form.photo}}
+              </div>
+            <div class="form-group">
+              <label for="title" class="col-form-label">Title:</label>
+              {{form.title}}
+            </div>
+            <div class="form-group">
+              <label for="slug" class="col-form-label">slug:</label>
+              {{form.slug}}
+            </div>
+            <div class="form-group hidden">
+                <input type="hidden" name="blog_views" value=0 class="form-control" required>
+              </div>
+            <div class="form-group">
+              <label for="status" class="col-form-label">Status:</label>
+              <select name="status" id="" class="form-control" >
+                <option value="">Select Status</option>
+                <option value="Publish">Publish</option>
+                <option value="Draft">Draft</option>
+            </select>
+            </div>
+            <div class="form-group">
+              <label for="description" class="col-form-label">description:</label>
+              <textarea name="description" class="form-control"></textarea>
+            </div>
+            
+            <hr>
+            <input type="submit" value="Send" class="btn btn-secondary">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if query %}
+        <!-- view post -->
+        <table class="table text-light">
+            <thead>
+              <tr>
+                
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Total Views</th>
+                <th scope="col"></th>
+
+              </tr>
+            </thead>
+            <tbody>
+                {% for main in user_contacts %}
+
+              <tr>
+                
+                <td>{{main.title}}</td>
+                <td>{{main.description | safe | slice:":100"}}...</td>
+                <td>{{main.blog_views}} views</td>
+                <td><a href="{% url 'postdetails' main.slug %}" type="button" class="btn btn-primary">View Details</a></td>
+
+              </tr>
+              {% endfor %}
+
+              
+            </tbody>
+          </table>
+          {% else %}
+                <h2 class="mt-4">You have not made any post!</h2>
+                {% endif %}
+        
+    </div>
+  </div>
+
+
+
+    
+{% endblock %}
+    

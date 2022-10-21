@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main role="main">
+    <section class="pt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="project-sidebar">
+                        <!-- Place your project images here -->
+                        <figure><img src="{{post.photo.url}}" alt="" class="img-fluid"></figure>
+                        
+                    </div>
+                </div>
+                <!-- end:col -->
+                <div class="col-md-5 pl-lg-5 pl-md-5">
+                    <div class="sticky-top pt-5">
+                        <h1>
+                            {{post.title}}
+                        </h1>
+                        <p class="lead mt-4">{{post.date_added}} <span>{{post.blog_views}} views</span></p>
+                        <p class="lead mt-4">{{post.description | safe}}</p>
+                        
+                        <!-- post reply -->
+                <div class="section-row">
+                    <div class="section-title">
+                        <h3 class="title">Leave a reply</h3>
+                    </div>
+                    <form method="POST" class="post-reply">
+                        <div class="row">
+                            <div class="">
+                            
+                                {% csrf_token %}
+                                <div class="col-md-4 mt-4">
+                                    <div class="form-group">
+										{{form.name}}
+									</div>
+                                
+                                </div>
+                                                                
+                                <div class="col-md-4 mt-4">
+                                    <div class="form-group">
+										{{form.body}}
+									</div>
+                                </div> 
+                                <div class="row">
+                                <div class="col-md-4">
+									<button class="btn btn-primary">Submit</button>
+								</div>
+                            </div>
+                            
+                            </div>
+
+                        </div>
+                    </form>
+                    <div class="section-title">
+                        <h3 class="title">Comments</h3>
+                    </div>
+                    <div class="post-comments">
+                        <!-- comment -->
+                        <div class="media">
+                            <div class="media-body">
+                            {% for comment in commenting %}
+
+                                <div class="media-heading">
+                                    <h4>{{comment.name}}</h4>
+                                    <span class="time">{{comment.date_added}}</span>
+                                </div>
+                                <p>{{comment.body}}
+                            
+                                </p> 
+                            {% endfor %}
+
+                            </div>
+
+                        </div>
+                        <!-- /comment -->
+                        <!-- end:col -->
+                    </div>
+                </div>
+            </div>
+            <!-- end:row -->
+            <hr class="mt-5">
+        </div>
+    </section>
+</main
+    
+{% endblock content %}
+    
